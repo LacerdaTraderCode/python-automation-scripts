@@ -2,51 +2,51 @@
 
 # ⚙️ Python Automation Scripts
 
-**Coleção de scripts Python para automatizar tarefas do dia a dia**
+**A collection of Python scripts to automate everyday tasks**
 
 [![Python](https://img.shields.io/badge/Python-3.11%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
-[![Licença](https://img.shields.io/badge/Licen%C3%A7a-MIT-orange)](https://github.com/LacerdaTraderCode/python-automation-scripts/blob/main/LICENSE)
+[![License](https://img.shields.io/badge/License-MIT-orange)](https://github.com/LacerdaTraderCode/python-automation-scripts/blob/main/LICENSE)
 [![GitHub](https://img.shields.io/badge/GitHub-LacerdaTraderCode-181717?logo=github)](https://github.com/LacerdaTraderCode/python-automation-scripts)
 
 </div>
 
 ---
 
-## 📌 Sobre o projeto
+## 📌 About the Project
 
-Coleção de scripts Python prontos para automatizar tarefas comuns do dia a dia de profissionais de TI — organização de arquivos, backups, monitoramento de sistema, envio de e-mails, processamento de Excel, renomeação em lote e muito mais.
+A collection of ready-to-use Python scripts that automate common day-to-day tasks for IT professionals — file organization, backups, system monitoring, email sending, Excel processing, batch renaming, and much more.
 
-Cada script é independente, documentado e pronto para uso imediato.
+Each script is independent, documented, and ready for immediate use.
 
 ---
 
-## 📋 Scripts disponíveis
+## 📋 Available Scripts
 
-| # | Script | Descrição |
+| # | Script | Description |
 |---|--------|-----------|
-| 1 | `file_organizer.py` | Organiza arquivos em subpastas por tipo (imagens, docs, vídeos...) |
-| 2 | `bulk_rename.py` | Renomeia arquivos em lote com suporte a regex |
-| 3 | `folder_backup.py` | Backup compactado de pastas com timestamp |
-| 4 | `excel_merger.py` | Combina múltiplas planilhas Excel em uma só |
-| 5 | `email_sender.py` | Envio de e-mails em massa com template HTML |
-| 6 | `system_monitor.py` | Monitora CPU, RAM e Disco — gera log automático |
-| 7 | `duplicate_finder.py` | Encontra arquivos duplicados por hash MD5 |
-| 8 | `log_analyzer.py` | Analisa arquivos de log e extrai erros/padrões |
+| 1 | `file_organizer.py` | Organizes files into subfolders by type (images, docs, videos...) |
+| 2 | `bulk_rename.py` | Batch renames files with regex support |
+| 3 | `folder_backup.py` | Compressed folder backup with timestamp |
+| 4 | `excel_merger.py` | Merges multiple Excel spreadsheets into one |
+| 5 | `email_sender.py` | Bulk email sending with HTML template |
+| 6 | `system_monitor.py` | Monitors CPU, RAM, and Disk — generates automatic log |
+| 7 | `duplicate_finder.py` | Finds duplicate files by MD5 hash |
+| 8 | `log_analyzer.py` | Analyzes log files and extracts errors/patterns |
 
 ---
 
-## 🛠️ Tecnologias
+## 🛠️ Technologies
 
-- **pathlib, shutil, os** — Manipulação de arquivos e diretórios
-- **openpyxl** — Leitura e escrita de arquivos Excel
-- **smtplib** — Envio de e-mails via SMTP
-- **psutil** — Monitoramento de CPU, RAM e disco
-- **hashlib** — Hashes para detecção de duplicatas
-- **re** — Expressões regulares para renomeação em lote
+- **pathlib, shutil, os** — File and directory handling
+- **openpyxl** — Reading and writing Excel files
+- **smtplib** — Email sending via SMTP
+- **psutil** — CPU, RAM, and disk monitoring
+- **hashlib** — Hashing for duplicate detection
+- **re** — Regular expressions for batch renaming
 
 ---
 
-## 📁 Estrutura
+## 📁 Structure
 
 ```
 python-automation-scripts/
@@ -65,7 +65,7 @@ python-automation-scripts/
 
 ---
 
-## 📦 Instalação
+## 📦 Installation
 
 ```bash
 git clone https://github.com/LacerdaTraderCode/python-automation-scripts.git
@@ -80,48 +80,48 @@ pip install -r requirements.txt
 
 ---
 
-## ⚡ Exemplos de uso
+## ⚡ Usage Examples
 
-### Organizar arquivos da pasta Downloads
+### Organize files in the Downloads folder
 ```bash
 python scripts/file_organizer.py ~/Downloads
 ```
-Cria subpastas `Documentos`, `Imagens`, `Vídeos`, `Áudios`, `Compactados` e move os arquivos automaticamente.
+Creates `Documents`, `Images`, `Videos`, `Audio`, `Archives` subfolders and automatically moves the files.
 
-### Renomear em lote com padrão
+### Batch rename with a pattern
 ```bash
-python scripts/bulk_rename.py ./fotos --pattern "IMG_(\d+)" --replacement "foto_{1}"
+python scripts/bulk_rename.py ./photos --pattern "IMG_(\d+)" --replacement "photo_{1}"
 ```
 
-### Backup compactado com data
+### Compressed backup with date
 ```bash
-python scripts/folder_backup.py /origem /destino/backups
-# Gera: backups/backup_2026-06-06_projeto.zip
+python scripts/folder_backup.py /source /destination/backups
+# Generates: backups/backup_2026-06-06_project.zip
 ```
 
-### Monitorar sistema
+### Monitor system
 ```bash
 python scripts/system_monitor.py --interval 60 --log monitor.log
 ```
 
-### Encontrar arquivos duplicados
+### Find duplicate files
 ```bash
-python scripts/duplicate_finder.py ~/Documentos
+python scripts/duplicate_finder.py ~/Documents
 ```
 
 ---
 
-## ✅ Requisitos
+## ✅ Requirements
 
-- Python **3.11** ou superior
+- Python **3.11** or higher
 
 ---
 
-## 👤 Autor
+## 👤 Author
 
 <div align="center">
 
-**Wagner Lacerda** — Python Backend Developer | APIs REST • Automação • Data Engineering
+**Wagner Lacerda** — Senior Software Engineer | Python, Backend, AI Apps, Automation & Systems
 
 [![GitHub](https://img.shields.io/badge/GitHub-LacerdaTraderCode-181717?logo=github&logoColor=white)](https://github.com/LacerdaTraderCode)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Wagner%20Lacerda-0077B5?logo=linkedin&logoColor=white)](https://linkedin.com/in/wagner-lacerda-da-silva-958b9481)
@@ -129,12 +129,12 @@ python scripts/duplicate_finder.py ~/Documentos
 [![Telegram](https://img.shields.io/badge/Telegram-LacerdaTraderCode-26A5E4?logo=telegram&logoColor=white)](https://t.me/LacerdaTraderCode)
 [![Telegram Bots](https://img.shields.io/badge/Telegram-Bots-26A5E4?logo=telegram&logoColor=white)](https://t.me/LacerdaTraderCode_bots)
 
-📍 Rio Grande do Sul, Brasil
+📍 Rio Grande do Sul, Brazil
 
 </div>
 
 ---
 
-## 📄 Licença
+## 📄 License
 
-Distribuído sob a licença MIT. Veja [LICENSE](LICENSE) para mais detalhes.
+Distributed under the MIT license. See [LICENSE](LICENSE) for more details.
