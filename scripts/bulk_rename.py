@@ -38,7 +38,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Bulk rename files using a regex")
     parser.add_argument("folder", help="Folder containing the files")
     parser.add_argument("--pattern", required=True, help="Regex to search for")
-    parser.add_argument("--replacement", required=True, help="Replacement text, use {1} for groups")
+    parser.add_argument("--replacement", required=True, help="Replacement ({1} for groups)")
     parser.add_argument("--dry-run", action="store_true", help="Preview without renaming")
     args = parser.parse_args(argv)
 
