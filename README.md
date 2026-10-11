@@ -4,6 +4,7 @@
 
 **A collection of Python scripts to automate everyday tasks**
 
+[![CI](https://github.com/LacerdaTraderCode/python-automation-scripts/actions/workflows/ci.yml/badge.svg)](https://github.com/LacerdaTraderCode/python-automation-scripts/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/Python-3.11%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-orange)](https://github.com/LacerdaTraderCode/python-automation-scripts/blob/main/LICENSE)
 [![GitHub](https://img.shields.io/badge/GitHub-LacerdaTraderCode-181717?logo=github)](https://github.com/LacerdaTraderCode/python-automation-scripts)
