@@ -11,7 +11,7 @@ def tree(tmp_path):
     (tmp_path / "sub").mkdir()
     (tmp_path / "a.txt").write_text("same content")
     (tmp_path / "sub" / "b.txt").write_text("same content")
-    (tmp_path / "c.txt").write_text("different!!!!")
+    (tmp_path / "c.txt").write_text("diff content")
     (tmp_path / "empty1.txt").write_text("")
     (tmp_path / "empty2.txt").write_text("")
     return tmp_path
