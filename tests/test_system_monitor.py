@@ -107,10 +107,10 @@ def test_monitor_stops_cleanly_on_keyboard_interrupt(fake_psutil, monkeypatch, c
 
 
 def test_main_forwards_arguments(monkeypatch):
-    received = {}
-    monkeypatch.setattr(module, "monitor", lambda interval, log: received.update(i=interval, l=log))
+    received = []
+    monkeypatch.setattr(module, "monitor", lambda *args: received.append(args))
 
     code = module.main(["--interval", "5", "--log", "out.log"])
 
     assert code == 0
-    assert received == {"i": 5, "l": "out.log"}
+    assert received == [(5, "out.log")]
