@@ -1,62 +1,73 @@
-"""
-Folder Backup - cria backup compactado de uma pasta com timestamp.
-
-Uso: python scripts/folder_backup.py <origem> <destino>
-"""
+import argparse
 import sys
 import zipfile
-from pathlib import Path
+from dataclasses import dataclass
 from datetime import datetime
+from pathlib import Path
 
 
-def backup_folder(source: str, dest_dir: str) -> str:
-    """Compacta pasta em ZIP com data no nome."""
+@dataclass(frozen=True)
+class BackupResult:
+    path: Path
+    files: int
+    original_bytes: int
+    zip_bytes: int
+
+    @property
+    def savings_percent(self) -> float:
+        if self.original_bytes == 0:
+            return 0.0
+        return (1 - self.zip_bytes / self.original_bytes) * 100
+
+
+def backup_folder(source: str, dest_dir: str, now: datetime | None = None) -> BackupResult:
     source_path = Path(source).expanduser().resolve()
     dest_path = Path(dest_dir).expanduser().resolve()
 
     if not source_path.exists():
-        print(f"❌ Origem não existe: {source_path}")
-        return ""
+        raise FileNotFoundError(f"Source does not exist: {source_path}")
 
     dest_path.mkdir(parents=True, exist_ok=True)
 
-    timestamp = datetime.now().strftime("%Y-%m-%d_%H%M")
-    zip_name = f"backup_{timestamp}_{source_path.name}.zip"
-    zip_path = dest_path / zip_name
+    timestamp = (now or datetime.now()).strftime("%Y-%m-%d_%H%M")
+    zip_path = dest_path / f"backup_{timestamp}_{source_path.name}.zip"
 
-    print(f"📦 Criando backup de {source_path}")
-    print(f"📍 Destino: {zip_path}\n")
-
-    files_count = 0
-    total_size = 0
-
-    with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED, compresslevel=6) as zf:
-        for file in source_path.rglob("*"):
+    files = 0
+    original_bytes = 0
+    with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED, compresslevel=6) as archive:
+        for file in sorted(source_path.rglob("*")):
             if file.is_file():
-                arcname = file.relative_to(source_path.parent)
-                zf.write(file, arcname)
-                files_count += 1
-                total_size += file.stat().st_size
+                archive.write(file, file.relative_to(source_path.parent))
+                files += 1
+                original_bytes += file.stat().st_size
 
-    zip_size = zip_path.stat().st_size
-    compression = (1 - zip_size / total_size) * 100 if total_size > 0 else 0
-
-    print(f"✅ Backup concluído!")
-    print(f"   Arquivos: {files_count:,}")
-    print(f"   Original: {total_size / 1024 / 1024:.2f} MB")
-    print(f"   ZIP:      {zip_size / 1024 / 1024:.2f} MB")
-    print(f"   Economia: {compression:.1f}%")
-
-    return str(zip_path)
+    return BackupResult(
+        path=zip_path,
+        files=files,
+        original_bytes=original_bytes,
+        zip_bytes=zip_path.stat().st_size,
+    )
 
 
-def main():
-    if len(sys.argv) < 3:
-        print("Uso: python scripts/folder_backup.py <origem> <destino>")
-        sys.exit(1)
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="Create a timestamped ZIP backup of a folder")
+    parser.add_argument("source", help="Folder to back up")
+    parser.add_argument("destination", help="Folder where the ZIP is stored")
+    args = parser.parse_args(argv)
 
-    backup_folder(sys.argv[1], sys.argv[2])
+    try:
+        result = backup_folder(args.source, args.destination)
+    except FileNotFoundError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 1
+
+    print(f"Backup created: {result.path}")
+    print(f"Files: {result.files:,}")
+    print(f"Original: {result.original_bytes / 1024 / 1024:.2f} MB")
+    print(f"ZIP: {result.zip_bytes / 1024 / 1024:.2f} MB")
+    print(f"Savings: {result.savings_percent:.1f}%")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
