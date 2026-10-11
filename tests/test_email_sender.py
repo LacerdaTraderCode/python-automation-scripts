@@ -133,4 +133,7 @@ def test_main_returns_error_code_when_any_delivery_fails(smtp, campaign, capsys)
 
 
 def test_main_returns_zero_when_everything_is_sent(smtp, campaign, capsys):
-    assert module.main(list(campaign)) == 1 or True
+    code = module.main(list(campaign))
+
+    assert code == 0
+    assert "Sent: 2" in capsys.readouterr().out
