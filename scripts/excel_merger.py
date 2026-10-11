@@ -1,64 +1,65 @@
-"""
-Excel Merger - combina múltiplas planilhas Excel em um único arquivo.
-
-Uso: python scripts/excel_merger.py <pasta_com_xlsx> <arquivo_saida.xlsx>
-"""
+import argparse
 import sys
 from pathlib import Path
-from openpyxl import load_workbook, Workbook
+
+from openpyxl import Workbook, load_workbook
+
+MAX_SHEET_NAME_LENGTH = 31
 
 
-def merge_excels(input_dir: str, output_file: str):
-    """Combina todas as planilhas .xlsx de uma pasta."""
+def merge_excels(input_dir: str, output_file: str) -> dict:
     input_path = Path(input_dir).expanduser().resolve()
     output_path = Path(output_file).expanduser().resolve()
 
     if not input_path.is_dir():
-        print(f"❌ Pasta inválida: {input_path}")
-        return
+        raise NotADirectoryError(f"Invalid folder: {input_path}")
 
-    excel_files = list(input_path.glob("*.xlsx"))
+    excel_files = sorted(input_path.glob("*.xlsx"))
     if not excel_files:
-        print(f"❌ Nenhum arquivo .xlsx encontrado em {input_path}")
-        return
+        raise FileNotFoundError(f"No .xlsx files found in {input_path}")
 
-    print(f"📊 Combinando {len(excel_files)} arquivo(s)...\n")
-
-    merged_wb = Workbook()
-    merged_wb.remove(merged_wb.active)  # Remove sheet padrão
+    merged = Workbook()
+    merged.remove(merged.active)
 
     total_rows = 0
-    for excel_file in sorted(excel_files):
-        print(f"  📄 {excel_file.name}")
-        wb = load_workbook(excel_file, data_only=True)
-
-        for sheet_name in wb.sheetnames:
-            source_sheet = wb[sheet_name]
-            # Nome único: arquivo + aba
-            new_name = f"{excel_file.stem}_{sheet_name}"[:31]  # Excel limita 31 chars
-            new_sheet = merged_wb.create_sheet(title=new_name)
-
-            for row in source_sheet.iter_rows(values_only=True):
-                new_sheet.append(row)
+    for excel_file in excel_files:
+        workbook = load_workbook(excel_file, data_only=True)
+        for sheet_name in workbook.sheetnames:
+            title = f"{excel_file.stem}_{sheet_name}"[:MAX_SHEET_NAME_LENGTH]
+            target = merged.create_sheet(title=title)
+            for row in workbook[sheet_name].iter_rows(values_only=True):
+                target.append(row)
                 total_rows += 1
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    merged_wb.save(output_path)
+    merged.save(output_path)
 
-    print(f"\n✅ Combinado!")
-    print(f"   Arquivos processados: {len(excel_files)}")
-    print(f"   Abas criadas: {len(merged_wb.sheetnames)}")
-    print(f"   Linhas totais: {total_rows:,}")
-    print(f"   Saída: {output_path}")
+    return {
+        "files": len(excel_files),
+        "sheets": len(merged.sheetnames),
+        "rows": total_rows,
+        "output": output_path,
+    }
 
 
-def main():
-    if len(sys.argv) < 3:
-        print("Uso: python scripts/excel_merger.py <pasta_com_xlsx> <arquivo_saida.xlsx>")
-        sys.exit(1)
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="Merge Excel workbooks into a single file")
+    parser.add_argument("input_dir", help="Folder containing .xlsx files")
+    parser.add_argument("output_file", help="Path of the merged .xlsx file")
+    args = parser.parse_args(argv)
 
-    merge_excels(sys.argv[1], sys.argv[2])
+    try:
+        summary = merge_excels(args.input_dir, args.output_file)
+    except (NotADirectoryError, FileNotFoundError) as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        return 1
+
+    print(f"Files processed: {summary['files']}")
+    print(f"Sheets created: {summary['sheets']}")
+    print(f"Total rows: {summary['rows']:,}")
+    print(f"Output: {summary['output']}")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
