@@ -60,9 +60,24 @@ python-automation-scripts/
 │   ├── system_monitor.py
 │   ├── duplicate_finder.py
 │   └── log_analyzer.py
+├── tests/
+├── .github/workflows/ci.yml
 ├── requirements.txt
+├── requirements-dev.txt
 └── README.md
 ```
+
+---
+
+## 🧪 Development
+
+```bash
+pip install -r requirements-dev.txt
+ruff check . && ruff format --check .
+pytest -v
+```
+
+Tests run against temporary directories with SMTP and system metrics mocked. The same checks run on every push and pull request via GitHub Actions.
 
 ---
 
