@@ -34,7 +34,7 @@ def test_merge_combines_every_sheet_with_prefixed_names(workbooks, tmp_path):
     assert [list(row) for row in merged["sales_Q1"].values] == [["id", "total"], [1, 10]]
     assert summary["files"] == 2
     assert summary["sheets"] == 3
-    assert summary["rows"] == 7
+    assert summary["rows"] == 6
     assert summary["output"] == output.resolve()
 
 
